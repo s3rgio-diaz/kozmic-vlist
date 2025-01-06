@@ -35,7 +35,7 @@ const useKineticScroll = ({
   const velocityThresholdRef = useRef<number>(0.02);
   const deltaThresholdRef = useRef<number>(0.5);
 
-  const log = useCallback((...args: any[]) => {
+  const log = useCallback((...args: Parameters<typeof console.log>) => {
     if (debug) {
       console.log(...args);
     }
