@@ -108,7 +108,6 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
       ): Promise<boolean> => {
         const pageData = getPageData(pageNbr);
         if (pageData) {
-          console.log(`Using cached data for ${pageCacheField.name}:`, pageData.data);
           // Use the cached page data.
           pageCacheField(pageData);
           // No need to update or re-fetch.
@@ -159,7 +158,6 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
 
         // If cache was updated, we should trigger the update handler
         if (cacheUpdated) {
-          console.log('Cache after update:', cache.current);
           if (onCellContentUpdated) {
             onCellContentUpdated();
           }
@@ -208,9 +206,6 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
 
       // Just update the cache with the new page index
       await updateCache(pageIndex);
-
-      console.log('Cache update completed:', cache.current);
-
       // Only sync the page if the cache was actually updated
       if (cache.current.visiblePage.pageNumber === pageIndex) {
         syncPage(firstVisibleRow); // No need to await here

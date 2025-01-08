@@ -67,7 +67,6 @@ function VirtualList<T extends Record<string, unknown>>({
   }, [renderCell]);
 
   const handleCellContentUpdate = () => {
-    console.log('handleCellContentUpdate');
     rowsRef.current.forEach(async (rowElement: HTMLElement) => {
       if (rowElement) {
         const rowIndex = parseInt(rowElement.dataset?.rowIndex || '0', 10);
@@ -115,7 +114,7 @@ function VirtualList<T extends Record<string, unknown>>({
     
     const { firstRow, lastRow } = calculateVisibleRows(scrollTop);
     updateAndSyncCache(firstRow);
-    
+        
     log(`Visible rows from ${firstRow} to ${lastRow}`);
           
     rowsRef.current.forEach((rowElement: HTMLElement) => {      
@@ -146,9 +145,8 @@ function VirtualList<T extends Record<string, unknown>>({
 
   const handleOnScrollStop = useCallback((offset: number) => {    
     scrollTopRef.current = offset;
-    const { firstRow, lastRow } = calculateVisibleRows(offset);
+    const { firstRow } = calculateVisibleRows(offset);
 
-    console.log(`handleOnScrollStop - offset: ${offset} fistRow: ${firstRow}, lastRow: ${lastRow}`)
     if (onTopRowChanged) {
       const data = getRowData(firstRow);
       onTopRowChanged(data);
@@ -180,16 +178,13 @@ function VirtualList<T extends Record<string, unknown>>({
   const handleDoubleClick = (event: MouseEvent<HTMLDivElement>) => {
     const rowElement = event.currentTarget;
     const rowIndex = parseInt(rowElement.dataset.rowIndex || '-1');
-    console.log(`Row ${rowIndex} clicked!`);    
     if (rowIndex && onRowDoubleClick) {
       onRowDoubleClick(rowIndex, apiRef?.current);
     }
   }; 
 
   const renderRows = () => {
-    const currentScrollTop = scrollTopRef.current;
-    console.log('currentScrollTop', currentScrollTop);
-  
+    const currentScrollTop = scrollTopRef.current; 
     const { firstRow, lastRow } = calculateVisibleRows(currentScrollTop);
   
     const previousPageRows = Array.from({ length: poolSize.current }).map((_, index) => {
@@ -270,7 +265,6 @@ function VirtualList<T extends Record<string, unknown>>({
     return [...previousPageRows, ...visibleRows, ...nextPageRows];
   };
 
-  console.log('Rendering VirtualList...');
   return (
     <div style={{ display: 'flex', width: '100%' }}>
       <div
