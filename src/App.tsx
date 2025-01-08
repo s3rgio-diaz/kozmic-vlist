@@ -37,8 +37,8 @@ function App() {
       <div className="card">
         <p>Edit <code>src/App.tsx</code> and save to test HMR</p>
       </div>
+      <h2>Virtual List of Items</h2>
       <div className="virtual-list-container">
-        <h2>Virtual List of Items</h2>
         <VirtualList
           rowCount={1000}
           renderCell={renderCell}
@@ -47,10 +47,6 @@ function App() {
           rowHeight={50}
         />
       </div>
-
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

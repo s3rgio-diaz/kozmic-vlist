@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, MouseEvent } from 'react';
+import React, { useRef, useEffect, useCallback, useState, MouseEvent } from 'react';
 import ReactDOM from 'react-dom/client';
 import useKineticScroll from './useKineticScroll';
 import ScrollBar from './ScrollBar';
@@ -38,11 +38,14 @@ function VirtualList<T extends Record<string, unknown>>({
 }: VirtualListProps<T>) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const indicatorRef = useRef(null);
-  const viewRef = useRef(null);
+  const viewRef = useRef<HTMLDivElement | null>(null);
   const rowsRef = useRef<(HTMLDivElement)[]>([]);
   const poolSize = useRef(0);
   const topRowIndexRef = useRef(0);
   const scrollTopRef = useRef(0);
+
+  // Set state for viewHeight
+  const [viewHeight, setViewHeight] = useState(800);
 
   const totalHeight = rowCount * rowHeight;
 
@@ -88,7 +91,7 @@ function VirtualList<T extends Record<string, unknown>>({
   });
 
   const calculateVisibleRows = useCallback((scrollTop: number) => {
-    const visibleRows = Math.floor(containerHeight / rowHeight);
+    const visibleRows = Math.floor(viewHeight / rowHeight);
     const tolerance = 5; 
 
     const firstRow = Math.max(0, Math.floor((scrollTop + tolerance) / rowHeight)); 
@@ -97,7 +100,7 @@ function VirtualList<T extends Record<string, unknown>>({
     log(`scrollTop: ${scrollTop}, firstRow: ${firstRow}, lastRow: ${lastRow}`);
   
     return { firstRow, lastRow };
-  }, [log, rowCount, rowHeight]);
+  }, [log, rowCount, rowHeight, viewHeight]);
 
   const fetchAndSetData = useCallback(async (rowIndex: number, rowElement: HTMLElement) => {
     rowElement.dataset.rowIndex = rowIndex.toString();
@@ -134,14 +137,14 @@ function VirtualList<T extends Record<string, unknown>>({
       }
     });
     if (containerRef.current) {
-      if (containerRef.current.scrollHeight - scrollTop - containerHeight < loadMoreThreshold) {
+      if (containerRef.current.scrollHeight - scrollTop - viewHeight < loadMoreThreshold) {
         log('End of scroll reached, triggering onEndReached.');
         if (onEndReached) {
           onEndReached();
         }        
       }
     }
-  }, [calculateVisibleRows, fetchAndSetData, loadMoreThreshold, log, onEndReached, updateAndSyncCache]);
+  }, [calculateVisibleRows, fetchAndSetData, loadMoreThreshold, log, onEndReached, updateAndSyncCache, viewHeight]);
 
   const handleOnScrollStop = useCallback((offset: number) => {    
     scrollTopRef.current = offset;
@@ -168,8 +171,23 @@ function VirtualList<T extends Record<string, unknown>>({
     }
   }, [scrollToRow, apiRef]);
 
-  const containerHeight = 1000; 
-  poolSize.current = Math.ceil(containerHeight / rowHeight) * 3;
+  // Set viewHeight dynamically based on the viewRef container's size
+  useEffect(() => {
+    const updateViewHeight = () => {
+      if (viewRef.current) {
+        setViewHeight(viewRef.current.clientHeight);
+      }
+    };
+
+    // Set the initial view height
+    updateViewHeight();
+
+    // Update viewHeight on window resize
+    window.addEventListener('resize', updateViewHeight);
+    return () => window.removeEventListener('resize', updateViewHeight);
+  }, []);
+
+  poolSize.current = Math.ceil(viewHeight / rowHeight) * 3;
 
   useEffect(() => {
     handleCellContentUpdate();
@@ -181,7 +199,7 @@ function VirtualList<T extends Record<string, unknown>>({
     if (rowIndex && onRowDoubleClick) {
       onRowDoubleClick(rowIndex, apiRef?.current);
     }
-  }; 
+  };
 
   const renderRows = () => {
     const currentScrollTop = scrollTopRef.current; 
@@ -266,11 +284,10 @@ function VirtualList<T extends Record<string, unknown>>({
   };
 
   return (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       <div
         ref={viewRef}
         className={`${styles.wrapper}`}
-        style={{ '--container-height': `${containerHeight}px` } as React.CSSProperties}
       >
         <div
           ref={containerRef}
@@ -279,7 +296,7 @@ function VirtualList<T extends Record<string, unknown>>({
           {renderRows()}
         </div>
       </div>
-      <ScrollBar containerHeight={containerHeight} totalHeight={totalHeight} ref={indicatorRef} />
+      <ScrollBar containerHeight={viewHeight} totalHeight={totalHeight} ref={indicatorRef} />
     </div>
   );
 }
