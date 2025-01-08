@@ -9,7 +9,7 @@ type VirtualListApi = {
   scrollToRow: (index: number) => void,
 };
 
-interface VirtualListProps<T> {
+interface VirtualListProps<T extends Record<string, unknown>> {
   renderCell: (rowData: T, rowIndex: number) => JSX.Element;
   rowCount: number;
   rowsPerPage?: number;
@@ -17,13 +17,13 @@ interface VirtualListProps<T> {
   rowHeight?: number;
   onEndReached?: () => void;
   loadMoreThreshold?: number;
-  onRowDoubleClick?: (rowIndex: number, apiRef: VirtualListApi) => void;
+  onRowDoubleClick?: (rowIndex: number, apiRef: VirtualListApi | undefined) => void;
   onTopRowChanged?: (rowData: T) => void;
-  apiRef?: React.MutableRefObject<any>;
+  apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
   debug?: boolean;
 }
 
-function VirtualList<T>({
+function VirtualList<T extends Record<string, unknown>>({
   rowCount,
   fetchPageData,
   rowHeight = 50,
@@ -66,23 +66,23 @@ function VirtualList<T>({
     rowElement.appendChild(cellElement);
   }, [renderCell]);
 
-  const handleCellContentUpdate = useCallback(() => {    
+  const handleCellContentUpdate = () => {
     console.log('handleCellContentUpdate');
     rowsRef.current.forEach(async (rowElement: HTMLElement) => {
       if (rowElement) {
         const rowIndex = parseInt(rowElement.dataset?.rowIndex || '0', 10);
         const loading = !rowElement.textContent || rowElement.textContent.indexOf("Loading...") !== -1;
         if (loading) {
-          const rowData = getRowData(rowIndex);
+          const rowData = await getRowData(rowIndex) as T;
           if (rowData) {
             renderCellContent(rowElement, rowData, rowIndex);
           }
         }
       }
     });
-  }, [renderCellContent]);
+  };
 
-  const { getRowData, updateAndSyncCache } = usePageCache({
+  const { getRowData, updateAndSyncCache } = usePageCache<T>({
     fetchPageData, 
     onCellContentUpdated: handleCellContentUpdate, 
     rowsPerPage
@@ -137,7 +137,9 @@ function VirtualList<T>({
     if (containerRef.current) {
       if (containerRef.current.scrollHeight - scrollTop - containerHeight < loadMoreThreshold) {
         log('End of scroll reached, triggering onEndReached.');
-        onEndReached && onEndReached();
+        if (onEndReached) {
+          onEndReached();
+        }        
       }
     }
   }, [calculateVisibleRows, fetchAndSetData, loadMoreThreshold, log, onEndReached, updateAndSyncCache]);

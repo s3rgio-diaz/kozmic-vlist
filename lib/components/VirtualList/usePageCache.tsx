@@ -1,27 +1,29 @@
 import { useEffect, useRef, useCallback } from 'react';
 
-type PageData = {
-  data: any[];
+type PageData<T> = {
+  data: T[];
   pageNumber: number | null;
 };
 
-type FetchPageData = (pageIndex: number) => Promise<any[]>;
+type FetchPageData<T> = (pageIndex: number) => Promise<T[]>;
 
-type UsePageCacheProps = {
-  fetchPageData: FetchPageData;
+type LoadingType = { title: 'Loading...' };
+
+type UsePageCacheProps<T> = {
+  fetchPageData: FetchPageData<T>;
   onCellContentUpdated?: () => void;
   rowsPerPage?: number;
 };
 
-const usePageCache = ({
+export function usePageCache<T extends Record<string, unknown> | LoadingType>({
   fetchPageData,
   onCellContentUpdated,
   rowsPerPage = 100,
-}: UsePageCacheProps) => {
+}: UsePageCacheProps<T>) {
   const cache = useRef<{
-    previousPage: PageData;
-    visiblePage: PageData;
-    nextPage: PageData;
+    previousPage: PageData<T>;
+    visiblePage: PageData<T>;
+    nextPage: PageData<T>;
   }>({
     previousPage: { data: [], pageNumber: null },
     visiblePage: { data: [], pageNumber: null },
@@ -34,7 +36,7 @@ const usePageCache = ({
 
   // Fetch the page data
   const fetchPage = useCallback(
-    async (index: number): Promise<any[]> => {
+    async (index: number): Promise<T[]> => {
       if (index < 1 || isFetchingRef.current) {
         return [];
       }
@@ -48,7 +50,9 @@ const usePageCache = ({
         return [];
       } finally {
         isFetchingRef.current = false;
-        onCellContentUpdated && onCellContentUpdated();
+        if (onCellContentUpdated) { 
+          onCellContentUpdated();
+        }
       }
     },
     [fetchPageData, onCellContentUpdated]
@@ -72,7 +76,9 @@ const usePageCache = ({
         console.log('Visible page is Empty!');
       }
 
-      onCellContentUpdated && onCellContentUpdated();
+      if (onCellContentUpdated) {
+        onCellContentUpdated();
+      }
     },
     [onCellContentUpdated, rowsPerPage]
   );
@@ -85,7 +91,7 @@ const usePageCache = ({
       const { previousPage, visiblePage, nextPage } = pageCache;
 
       // Function to get the cached page data based on page number
-      const getPageData = (pageNbr: number): PageData | null => {
+      const getPageData = (pageNbr: number): PageData<T> | null => {
         const page = [previousPage, visiblePage, nextPage].find(
           (page) => page.pageNumber === pageNbr
         );
@@ -98,7 +104,7 @@ const usePageCache = ({
       // Helper function to fetch data for a page if not in cache
       const fetchPageDataIfNeeded = async (
         pageNbr: number,
-        pageCacheField: (page: PageData) => void
+        pageCacheField: (page: PageData<T>) => void
       ): Promise<boolean> => {
         const pageData = getPageData(pageNbr);
         if (pageData) {
@@ -154,7 +160,9 @@ const usePageCache = ({
         // If cache was updated, we should trigger the update handler
         if (cacheUpdated) {
           console.log('Cache after update:', cache.current);
-          onCellContentUpdated && onCellContentUpdated();
+          if (onCellContentUpdated) {
+            onCellContentUpdated();
+          }
         }
       } catch (error) {
         console.error('Error while fetching pages in parallel:', error);
@@ -212,7 +220,7 @@ const usePageCache = ({
   );
 
   // Get the row data
-  const getRowData = (rowIndex: number) => {
+  const getRowData = (rowIndex: number) : T => {
     const pageIndex = Math.floor(rowIndex / rowsPerPage) + 1;
     const offset = rowIndex % rowsPerPage;
 
@@ -231,10 +239,10 @@ const usePageCache = ({
         page = nextPage.data;
         break;
       default:
-        return { title: 'Loading...' };
+        return { title: 'Loading...' } as T;
     }
 
-    return page?.[offset] ?? { title: 'Loading...' };
+    return page?.[offset] ?? { title: 'Loading...' } as T;
   };
 
   useEffect(() => {
