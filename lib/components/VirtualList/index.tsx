@@ -285,6 +285,7 @@ function VirtualList<T extends Record<string, unknown>>({
     return [...previousPageRows, ...visibleRows, ...nextPageRows];
   };
 
+  console.log('Kozmic VirtualList redering...');
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       <div
