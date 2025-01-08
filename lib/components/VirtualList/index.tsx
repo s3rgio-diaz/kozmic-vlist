@@ -20,6 +20,7 @@ interface VirtualListProps<T extends Record<string, unknown>> {
   onRowDoubleClick?: (rowIndex: number, apiRef: VirtualListApi | undefined) => void;
   onTopRowChanged?: (rowData: T) => void;
   apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
+  hideVerticalScrollbar?: boolean,
   debug?: boolean;
 }
 
@@ -34,6 +35,7 @@ function VirtualList<T extends Record<string, unknown>>({
   onRowDoubleClick,
   onTopRowChanged,
   apiRef,
+  hideVerticalScrollbar = false,
   debug = false,
 }: VirtualListProps<T>) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -296,7 +298,7 @@ function VirtualList<T extends Record<string, unknown>>({
           {renderRows()}
         </div>
       </div>
-      <ScrollBar containerHeight={viewHeight} totalHeight={totalHeight} ref={indicatorRef} />
+      <ScrollBar show={!hideVerticalScrollbar} containerHeight={viewHeight} totalHeight={totalHeight} ref={indicatorRef} />
     </div>
   );
 }

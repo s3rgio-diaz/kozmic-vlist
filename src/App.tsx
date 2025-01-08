@@ -37,7 +37,7 @@ function App() {
       <div className="card">
         <p>Edit <code>src/App.tsx</code> and save to test HMR</p>
       </div>
-      <h2>Virtual List of Items</h2>
+      <h2>Sample</h2>
       <div className="virtual-list-container">
         <VirtualList
           rowCount={1000}

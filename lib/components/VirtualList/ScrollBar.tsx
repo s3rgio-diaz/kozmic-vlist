@@ -5,6 +5,7 @@ interface ScrollBarProps {
   'aria-label'?: string;
   containerHeight: number;
   totalHeight: number;
+  show: boolean;
 }
 
 interface ScrollBarHandle {
@@ -19,7 +20,8 @@ const ScrollBar = forwardRef<ScrollBarHandle, ScrollBarProps>((props, ref) => {
     const THUMB_HEIGHT = 25;
     const thumbRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const { 'aria-label': ariaLabel, containerHeight, totalHeight } = props;
+    const { 'aria-label': ariaLabel, containerHeight, totalHeight, show = true } = props;
+
 
     // Exposing the custom methods (setPosition) through `ref`
     useImperativeHandle(ref, () => ({
@@ -35,7 +37,7 @@ const ScrollBar = forwardRef<ScrollBarHandle, ScrollBarProps>((props, ref) => {
             aria-label={ariaLabel} 
             ref={containerRef}  // Standard DOM ref for the container
             className={styles.container} 
-            style={{ display: 'none' }}
+            style={{ display: show ? 'block' : 'none' }}
         >
             <div 
                 className={styles.thumb} 
