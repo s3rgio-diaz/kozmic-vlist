@@ -10,8 +10,7 @@ export default defineConfig({
   plugins: [
     react(), 
     dts({ 
-      include: ['lib'], 
-      exclude: ['lib/components/**'] 
+      include: ['lib']
     }),
     libInjectCss(),
     visualizer({ open: true })],
