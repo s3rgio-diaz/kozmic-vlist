@@ -20,7 +20,7 @@ interface VirtualListProps<T extends Record<string, unknown>> {
   onRowDoubleClick?: (rowIndex: number, apiRef: VirtualListApi | undefined) => void;
   onTopRowChanged?: (rowData: T) => void;
   apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
-  hideVerticalScrollbar?: boolean,
+  hideVerticalScrollbar?: boolean;
   debug?: boolean;
 }
 
@@ -71,6 +71,7 @@ function VirtualList<T extends Record<string, unknown>>({
     rowElement.appendChild(cellElement);
   }, [renderCell]);
 
+
   const handleCellContentUpdate = () => {
     rowsRef.current.forEach(async (rowElement: HTMLElement) => {
       if (rowElement) {
@@ -87,7 +88,7 @@ function VirtualList<T extends Record<string, unknown>>({
   };
 
   const { getRowData, updateAndSyncCache } = usePageCache<T>({
-    fetchPageData, 
+    fetchPageData,
     onCellContentUpdated: handleCellContentUpdate, 
     rowsPerPage
   });
@@ -285,7 +286,7 @@ function VirtualList<T extends Record<string, unknown>>({
     return [...previousPageRows, ...visibleRows, ...nextPageRows];
   };
 
-  console.log('Kozmic VirtualList redering...');
+  console.log('Kozmic VirtualList redering... (5)');
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       <div
@@ -304,4 +305,23 @@ function VirtualList<T extends Record<string, unknown>>({
   );
 }
 
-export default React.memo(VirtualList) as typeof VirtualList;
+const arePropsEqual = <T extends Record<string, unknown>>(
+  prevProps: VirtualListProps<T>, 
+  nextProps: VirtualListProps<T>
+) => {
+  // Get all the keys from the props objects
+  const keys = Object.keys(prevProps) as (keyof VirtualListProps<T>)[];
+
+  // Check each prop for equality
+  for (const key of keys) {
+    if (prevProps[key] !== nextProps[key]) {
+      console.log(`Prop changed: ${key}`);  // Log the name of the property that changed
+      return false;  // If any prop is different, return false
+    }
+  }
+
+  return true;  // All props are equal, so return true
+};
+
+
+export default React.memo(VirtualList, arePropsEqual) as typeof VirtualList;
