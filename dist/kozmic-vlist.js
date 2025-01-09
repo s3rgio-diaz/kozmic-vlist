@@ -13,8 +13,8 @@ var $t = { exports: {} };
 var ve;
 function Je() {
   return ve || (ve = 1, function(g) {
-    (function(u, v, _, f) {
-      var A = ["", "webkit", "Moz", "MS", "ms", "o"], B = v.createElement("div"), S = "function", C = Math.round, y = Math.abs, et = Date.now;
+    (function(u, v, P, f) {
+      var C = ["", "webkit", "Moz", "MS", "ms", "o"], B = v.createElement("div"), R = "function", y = Math.round, I = Math.abs, et = Date.now;
       function G(t, e, r) {
         return setTimeout(w(t, r), e);
       }
@@ -54,14 +54,14 @@ function Je() {
         }
         return r;
       } : d = Object.assign;
-      var P = o(function(e, r, n) {
+      var N = o(function(e, r, n) {
         for (var i = Object.keys(r), s = 0; s < i.length; )
           (!n || n && e[i[s]] === f) && (e[i[s]] = r[i[s]]), s++;
         return e;
       }, "extend", "Use `assign`."), J = o(function(e, r) {
-        return P(e, r, !0);
+        return N(e, r, !0);
       }, "merge", "Use `assign`.");
-      function N(t, e, r) {
+      function O(t, e, r) {
         var n = e.prototype, i;
         i = t.prototype = Object.create(n), i.constructor = t, i._super = n, r && d(i, r);
       }
@@ -71,7 +71,7 @@ function Je() {
         };
       }
       function H(t, e) {
-        return typeof t == S ? t.apply(e && e[0] || f, e) : t;
+        return typeof t == R ? t.apply(e && e[0] || f, e) : t;
       }
       function Q(t, e) {
         return t === f ? e : t;
@@ -94,7 +94,7 @@ function Je() {
         }
         return !1;
       }
-      function T(t, e) {
+      function m(t, e) {
         return t.indexOf(e) > -1;
       }
       function V(t) {
@@ -123,22 +123,22 @@ function Je() {
         }), n;
       }
       function q(t, e) {
-        for (var r, n, i = e[0].toUpperCase() + e.slice(1), s = 0; s < A.length; ) {
-          if (r = A[s], n = r ? r + i : e, n in t)
+        for (var r, n, i = e[0].toUpperCase() + e.slice(1), s = 0; s < C.length; ) {
+          if (r = C[s], n = r ? r + i : e, n in t)
             return n;
           s++;
         }
         return f;
       }
       var M = 1;
-      function R() {
+      function S() {
         return M++;
       }
       function j(t) {
         var e = t.ownerDocument || t;
         return e.defaultView || e.parentWindow || u;
       }
-      var a = /mobile|tablet|ip(ad|hone|od)|android/i, m = "ontouchstart" in u, O = q(u, "PointerEvent") !== f, L = m && a.test(navigator.userAgent), U = "touch", it = "pen", rt = "mouse", x = "kinect", pt = 25, I = 1, dt = 2, D = 4, $ = 8, Ct = 1, Et = 2, yt = 4, It = 8, _t = 16, st = Et | yt, mt = It | _t, Bt = st | mt, jt = ["x", "y"], Rt = ["clientX", "clientY"];
+      var a = /mobile|tablet|ip(ad|hone|od)|android/i, T = "ontouchstart" in u, A = q(u, "PointerEvent") !== f, L = T && a.test(navigator.userAgent), U = "touch", it = "pen", rt = "mouse", x = "kinect", pt = 25, _ = 1, dt = 2, D = 4, $ = 8, Ct = 1, Et = 2, yt = 4, It = 8, _t = 16, st = Et | yt, mt = It | _t, Bt = st | mt, jt = ["x", "y"], St = ["clientX", "clientY"];
       function K(t, e) {
         var r = this;
         this.manager = t, this.callback = e, this.element = t.element, this.target = t.options.inputTarget, this.domHandler = function(n) {
@@ -167,25 +167,25 @@ function Je() {
       };
       function Te(t) {
         var e, r = t.options.inputClass;
-        return r ? e = r : O ? e = Ht : L ? e = Dt : m ? e = Ft : e = Mt, new e(t, ge);
+        return r ? e = r : A ? e = Ht : L ? e = Dt : T ? e = Ft : e = Mt, new e(t, ge);
       }
       function ge(t, e, r) {
-        var n = r.pointers.length, i = r.changedPointers.length, s = e & I && n - i === 0, l = e & (D | $) && n - i === 0;
+        var n = r.pointers.length, i = r.changedPointers.length, s = e & _ && n - i === 0, l = e & (D | $) && n - i === 0;
         r.isFirst = !!s, r.isFinal = !!l, s && (t.session = {}), r.eventType = e, Ee(t, r), t.emit("hammer.input", r), t.recognize(r), t.session.prevInput = r;
       }
       function Ee(t, e) {
         var r = t.session, n = e.pointers, i = n.length;
         r.firstInput || (r.firstInput = Zt(e)), i > 1 && !r.firstMultiple ? r.firstMultiple = Zt(e) : i === 1 && (r.firstMultiple = !1);
         var s = r.firstInput, l = r.firstMultiple, Y = l ? l.center : s.center, X = e.center = Jt(n);
-        e.timeStamp = et(), e.deltaTime = e.timeStamp - s.timeStamp, e.angle = Yt(Y, X), e.distance = St(Y, X), ye(r, e), e.offsetDirection = Kt(e.deltaX, e.deltaY);
+        e.timeStamp = et(), e.deltaTime = e.timeStamp - s.timeStamp, e.angle = Yt(Y, X), e.distance = Rt(Y, X), ye(r, e), e.offsetDirection = Kt(e.deltaX, e.deltaY);
         var W = Qt(e.deltaTime, e.deltaX, e.deltaY);
-        e.overallVelocityX = W.x, e.overallVelocityY = W.y, e.overallVelocity = y(W.x) > y(W.y) ? W.x : W.y, e.scale = l ? Pe(l.pointers, n) : 1, e.rotation = l ? _e(l.pointers, n) : 0, e.maxPointers = r.prevInput ? e.pointers.length > r.prevInput.maxPointers ? e.pointers.length : r.prevInput.maxPointers : e.pointers.length, Ie(r, e);
+        e.overallVelocityX = W.x, e.overallVelocityY = W.y, e.overallVelocity = I(W.x) > I(W.y) ? W.x : W.y, e.scale = l ? Pe(l.pointers, n) : 1, e.rotation = l ? _e(l.pointers, n) : 0, e.maxPointers = r.prevInput ? e.pointers.length > r.prevInput.maxPointers ? e.pointers.length : r.prevInput.maxPointers : e.pointers.length, Ie(r, e);
         var ot = t.element;
         F(e.srcEvent.target, ot) && (ot = e.srcEvent.target), e.target = ot;
       }
       function ye(t, e) {
         var r = e.center, n = t.offsetDelta || {}, i = t.prevDelta || {}, s = t.prevInput || {};
-        (e.eventType === I || s.eventType === D) && (i = t.prevDelta = {
+        (e.eventType === _ || s.eventType === D) && (i = t.prevDelta = {
           x: s.deltaX || 0,
           y: s.deltaY || 0
         }, n = t.offsetDelta = {
@@ -197,7 +197,7 @@ function Je() {
         var r = t.lastInterval || e, n = e.timeStamp - r.timeStamp, i, s, l, Y;
         if (e.eventType != $ && (n > pt || r.velocity === f)) {
           var X = e.deltaX - r.deltaX, W = e.deltaY - r.deltaY, ot = Qt(n, X, W);
-          s = ot.x, l = ot.y, i = y(ot.x) > y(ot.y) ? ot.x : ot.y, Y = Kt(X, W), t.lastInterval = e;
+          s = ot.x, l = ot.y, i = I(ot.x) > I(ot.y) ? ot.x : ot.y, Y = Kt(X, W), t.lastInterval = e;
         } else
           i = r.velocity, s = r.velocityX, l = r.velocityY, Y = r.direction;
         e.velocity = i, e.velocityX = s, e.velocityY = l, e.direction = Y;
@@ -205,8 +205,8 @@ function Je() {
       function Zt(t) {
         for (var e = [], r = 0; r < t.pointers.length; )
           e[r] = {
-            clientX: C(t.pointers[r].clientX),
-            clientY: C(t.pointers[r].clientY)
+            clientX: y(t.pointers[r].clientX),
+            clientY: y(t.pointers[r].clientY)
           }, r++;
         return {
           timeStamp: et(),
@@ -220,14 +220,14 @@ function Je() {
         var e = t.length;
         if (e === 1)
           return {
-            x: C(t[0].clientX),
-            y: C(t[0].clientY)
+            x: y(t[0].clientX),
+            y: y(t[0].clientY)
           };
         for (var r = 0, n = 0, i = 0; i < e; )
           r += t[i].clientX, n += t[i].clientY, i++;
         return {
-          x: C(r / e),
-          y: C(n / e)
+          x: y(r / e),
+          y: y(n / e)
         };
       }
       function Qt(t, e, r) {
@@ -237,9 +237,9 @@ function Je() {
         };
       }
       function Kt(t, e) {
-        return t === e ? Ct : y(t) >= y(e) ? t < 0 ? Et : yt : e < 0 ? It : _t;
+        return t === e ? Ct : I(t) >= I(e) ? t < 0 ? Et : yt : e < 0 ? It : _t;
       }
-      function St(t, e, r) {
+      function Rt(t, e, r) {
         r || (r = jt);
         var n = e[r[0]] - t[r[0]], i = e[r[1]] - t[r[1]];
         return Math.sqrt(n * n + i * i);
@@ -250,27 +250,27 @@ function Je() {
         return Math.atan2(i, n) * 180 / Math.PI;
       }
       function _e(t, e) {
-        return Yt(e[1], e[0], Rt) + Yt(t[1], t[0], Rt);
+        return Yt(e[1], e[0], St) + Yt(t[1], t[0], St);
       }
       function Pe(t, e) {
-        return St(e[0], e[1], Rt) / St(t[0], t[1], Rt);
+        return Rt(e[0], e[1], St) / Rt(t[0], t[1], St);
       }
       var Ne = {
-        mousedown: I,
+        mousedown: _,
         mousemove: dt,
         mouseup: D
       }, Oe = "mousedown", Ae = "mousemove mouseup";
       function Mt() {
         this.evEl = Oe, this.evWin = Ae, this.pressed = !1, K.apply(this, arguments);
       }
-      N(Mt, K, {
+      O(Mt, K, {
         /**
          * handle mouse events
          * @param {Object} ev
          */
         handler: function(e) {
           var r = Ne[e.type];
-          r & I && e.button === 0 && (this.pressed = !0), r & dt && e.which !== 1 && (r = D), this.pressed && (r & D && (this.pressed = !1), this.callback(this.manager, r, {
+          r & _ && e.button === 0 && (this.pressed = !0), r & dt && e.which !== 1 && (r = D), this.pressed && (r & D && (this.pressed = !1), this.callback(this.manager, r, {
             pointers: [e],
             changedPointers: [e],
             pointerType: rt,
@@ -279,12 +279,12 @@ function Je() {
         }
       });
       var Ce = {
-        pointerdown: I,
+        pointerdown: _,
         pointermove: dt,
         pointerup: D,
         pointercancel: $,
         pointerout: $
-      }, Re = {
+      }, Se = {
         2: U,
         3: it,
         4: rt,
@@ -295,14 +295,14 @@ function Je() {
       function Ht() {
         this.evEl = te, this.evWin = ee, K.apply(this, arguments), this.store = this.manager.session.pointerEvents = [];
       }
-      N(Ht, K, {
+      O(Ht, K, {
         /**
          * handle mouse events
          * @param {Object} ev
          */
         handler: function(e) {
-          var r = this.store, n = !1, i = e.type.toLowerCase().replace("ms", ""), s = Ce[i], l = Re[e.pointerType] || e.pointerType, Y = l == U, X = k(r, e.pointerId, "pointerId");
-          s & I && (e.button === 0 || Y) ? X < 0 && (r.push(e), X = r.length - 1) : s & (D | $) && (n = !0), !(X < 0) && (r[X] = e, this.callback(this.manager, s, {
+          var r = this.store, n = !1, i = e.type.toLowerCase().replace("ms", ""), s = Ce[i], l = Se[e.pointerType] || e.pointerType, Y = l == U, X = k(r, e.pointerId, "pointerId");
+          s & _ && (e.button === 0 || Y) ? X < 0 && (r.push(e), X = r.length - 1) : s & (D | $) && (n = !0), !(X < 0) && (r[X] = e, this.callback(this.manager, s, {
             pointers: r,
             changedPointers: [e],
             pointerType: l,
@@ -310,8 +310,8 @@ function Je() {
           }), n && r.splice(X, 1));
         }
       });
-      var Se = {
-        touchstart: I,
+      var Re = {
+        touchstart: _,
         touchmove: dt,
         touchend: D,
         touchcancel: $
@@ -319,10 +319,10 @@ function Je() {
       function re() {
         this.evTarget = Me, this.evWin = De, this.started = !1, K.apply(this, arguments);
       }
-      N(re, K, {
+      O(re, K, {
         handler: function(e) {
-          var r = Se[e.type];
-          if (r === I && (this.started = !0), !!this.started) {
+          var r = Re[e.type];
+          if (r === _ && (this.started = !0), !!this.started) {
             var n = be.call(this, e, r);
             r & (D | $) && n[0].length - n[1].length === 0 && (this.started = !1), this.callback(this.manager, r, {
               pointers: n[0],
@@ -338,7 +338,7 @@ function Je() {
         return e & (D | $) && (r = ct(r.concat(n), "identifier")), [r, n];
       }
       var xe = {
-        touchstart: I,
+        touchstart: _,
         touchmove: dt,
         touchend: D,
         touchcancel: $
@@ -346,7 +346,7 @@ function Je() {
       function Dt() {
         this.evTarget = we, this.targetIds = {}, K.apply(this, arguments);
       }
-      N(Dt, K, {
+      O(Dt, K, {
         handler: function(e) {
           var r = xe[e.type], n = Le.call(this, e, r);
           n && this.callback(this.manager, r, {
@@ -359,12 +359,12 @@ function Je() {
       });
       function Le(t, e) {
         var r = z(t.touches), n = this.targetIds;
-        if (e & (I | dt) && r.length === 1)
+        if (e & (_ | dt) && r.length === 1)
           return n[r[0].identifier] = !0, [r, r];
         var i, s, l = z(t.changedTouches), Y = [], X = this.target;
         if (s = r.filter(function(W) {
           return F(W.target, X);
-        }), e === I)
+        }), e === _)
           for (i = 0; i < s.length; )
             n[s[i].identifier] = !0, i++;
         for (i = 0; i < l.length; )
@@ -382,7 +382,7 @@ function Je() {
         var t = w(this.handler, this);
         this.touch = new Dt(this.manager, t), this.mouse = new Mt(this.manager, t), this.primaryTouch = null, this.lastTouches = [];
       }
-      N(Ft, K, {
+      O(Ft, K, {
         /**
          * handle mouse and touch events
          * @param {Hammer} manager
@@ -407,7 +407,7 @@ function Je() {
         }
       });
       function Ye(t, e) {
-        t & I ? (this.primaryTouch = e.changedPointers[0].identifier, ie.call(this, e)) : t & (D | $) && ie.call(this, e);
+        t & _ ? (this.primaryTouch = e.changedPointers[0].identifier, ie.call(this, e)) : t & (D | $) && ie.call(this, e);
       }
       function ie(t) {
         var e = t.changedPointers[0];
@@ -467,7 +467,7 @@ function Je() {
             e.preventDefault();
             return;
           }
-          var n = this.actions, i = T(n, Tt) && !bt[Tt], s = T(n, Nt) && !bt[Nt], l = T(n, Pt) && !bt[Pt];
+          var n = this.actions, i = m(n, Tt) && !bt[Tt], s = m(n, Nt) && !bt[Nt], l = m(n, Pt) && !bt[Pt];
           if (i) {
             var Y = t.pointers.length === 1, X = t.distance < 2, W = t.deltaTime < 250;
             if (Y && X && W)
@@ -485,10 +485,10 @@ function Je() {
         }
       };
       function Fe(t) {
-        if (T(t, Tt))
+        if (m(t, Tt))
           return Tt;
-        var e = T(t, Pt), r = T(t, Nt);
-        return e && r ? Tt : e || r ? e ? Pt : Nt : T(t, Xt) ? Xt : ce;
+        var e = m(t, Pt), r = m(t, Nt);
+        return e && r ? Tt : e || r ? e ? Pt : Nt : m(t, Xt) ? Xt : ce;
       }
       function Xe() {
         if (!ae)
@@ -500,7 +500,7 @@ function Je() {
       }
       var xt = 1, tt = 2, gt = 4, ht = 8, lt = ht, Ot = 16, at = 32;
       function ut(t) {
-        this.options = d({}, this.defaults, t || {}), this.id = R(), this.manager = null, this.options.enable = Q(this.options.enable, !0), this.state = xt, this.simultaneous = {}, this.requireFail = [];
+        this.options = d({}, this.defaults, t || {}), this.id = S(), this.manager = null, this.options.enable = Q(this.options.enable, !0), this.state = xt, this.simultaneous = {}, this.requireFail = [];
       }
       ut.prototype = {
         /**
@@ -658,7 +658,7 @@ function Je() {
       function nt() {
         ut.apply(this, arguments);
       }
-      N(nt, ut, {
+      O(nt, ut, {
         /**
          * @namespace
          * @memberof AttrRecognizer
@@ -694,7 +694,7 @@ function Je() {
       function Lt() {
         nt.apply(this, arguments), this.pX = null, this.pY = null;
       }
-      N(Lt, nt, {
+      O(Lt, nt, {
         /**
          * @namespace
          * @memberof PanRecognizer
@@ -725,7 +725,7 @@ function Je() {
       function kt() {
         nt.apply(this, arguments);
       }
-      N(kt, nt, {
+      O(kt, nt, {
         /**
          * @namespace
          * @memberof PinchRecognizer
@@ -752,7 +752,7 @@ function Je() {
       function qt() {
         ut.apply(this, arguments), this._timer = null, this._input = null;
       }
-      N(qt, ut, {
+      O(qt, ut, {
         /**
          * @namespace
          * @memberof PressRecognizer
@@ -772,7 +772,7 @@ function Je() {
           var e = this.options, r = t.pointers.length === e.pointers, n = t.distance < e.threshold, i = t.deltaTime > e.time;
           if (this._input = t, !n || !r || t.eventType & (D | $) && !i)
             this.reset();
-          else if (t.eventType & I)
+          else if (t.eventType & _)
             this.reset(), this._timer = G(function() {
               this.state = lt, this.tryEmit();
             }, e.time, this);
@@ -790,7 +790,7 @@ function Je() {
       function Wt() {
         nt.apply(this, arguments);
       }
-      N(Wt, nt, {
+      O(Wt, nt, {
         /**
          * @namespace
          * @memberof RotateRecognizer
@@ -810,7 +810,7 @@ function Je() {
       function Gt() {
         nt.apply(this, arguments);
       }
-      N(Gt, nt, {
+      O(Gt, nt, {
         /**
          * @namespace
          * @memberof SwipeRecognizer
@@ -827,7 +827,7 @@ function Je() {
         },
         attrTest: function(t) {
           var e = this.options.direction, r;
-          return e & (st | mt) ? r = t.overallVelocity : e & st ? r = t.overallVelocityX : e & mt && (r = t.overallVelocityY), this._super.attrTest.call(this, t) && e & t.offsetDirection && t.distance > this.options.threshold && t.maxPointers == this.options.pointers && y(r) > this.options.velocity && t.eventType & D;
+          return e & (st | mt) ? r = t.overallVelocity : e & st ? r = t.overallVelocityX : e & mt && (r = t.overallVelocityY), this._super.attrTest.call(this, t) && e & t.offsetDirection && t.distance > this.options.threshold && t.maxPointers == this.options.pointers && I(r) > this.options.velocity && t.eventType & D;
         },
         emit: function(t) {
           var e = ue(t.offsetDirection);
@@ -837,7 +837,7 @@ function Je() {
       function Ut() {
         ut.apply(this, arguments), this.pTime = !1, this.pCenter = !1, this._timer = null, this._input = null, this.count = 0;
       }
-      N(Ut, ut, {
+      O(Ut, ut, {
         /**
          * @namespace
          * @memberof PinchRecognizer
@@ -860,12 +860,12 @@ function Je() {
         },
         process: function(t) {
           var e = this.options, r = t.pointers.length === e.pointers, n = t.distance < e.threshold, i = t.deltaTime < e.time;
-          if (this.reset(), t.eventType & I && this.count === 0)
+          if (this.reset(), t.eventType & _ && this.count === 0)
             return this.failTimeout();
           if (n && i && r) {
             if (t.eventType != D)
               return this.failTimeout();
-            var s = this.pTime ? t.timeStamp - this.pTime < e.interval : !0, l = !this.pCenter || St(this.pCenter, t.center) < e.posThreshold;
+            var s = this.pTime ? t.timeStamp - this.pTime < e.interval : !0, l = !this.pCenter || Rt(this.pCenter, t.center) < e.posThreshold;
             this.pTime = t.timeStamp, this.pCenter = t.center, !l || !s ? this.count = 1 : this.count += 1, this._input = t;
             var Y = this.count % e.taps;
             if (Y === 0)
@@ -1134,7 +1134,7 @@ function Je() {
         r.initEvent(t, !0, !0), r.gesture = e, e.target.dispatchEvent(r);
       }
       d(ft, {
-        INPUT_START: I,
+        INPUT_START: _,
         INPUT_MOVE: dt,
         INPUT_END: D,
         INPUT_CANCEL: $,
@@ -1173,14 +1173,14 @@ function Je() {
         off: p,
         each: c,
         merge: J,
-        extend: P,
+        extend: N,
         assign: d,
-        inherit: N,
+        inherit: O,
         bindFn: w,
         prefixed: q
       });
       var qe = typeof u < "u" ? u : typeof self < "u" ? self : {};
-      qe.Hammer = ft, g.exports ? g.exports = ft : u[_] = ft;
+      qe.Hammer = ft, g.exports ? g.exports = ft : u[P] = ft;
     })(window, document, "Hammer");
   }($t)), $t.exports;
 }
@@ -1189,98 +1189,98 @@ const pe = /* @__PURE__ */ Ze(Qe), Ke = ({
   viewRef: g,
   indicatorRef: u,
   totalHeight: v,
-  onScrollUpdate: _,
+  onScrollUpdate: P,
   onScrollStop: f,
-  rowHeight: A,
+  rowHeight: C,
   debug: B = !1
 }) => {
-  const S = E(0), C = E(!1), y = E(0), et = E(0), G = E(0), b = E(0), c = E(0), o = E(0), d = E(0), P = E(null), J = E(325), N = E(0.02), w = E(0.5), H = Z((...h) => {
+  const R = E(0), y = E(!1), I = E(0), et = E(0), G = E(0), b = E(0), c = E(0), o = E(0), d = E(0), N = E(null), J = E(325), O = E(0.02), w = E(0.5), H = Z((...h) => {
     B && console.log(...h);
   }, [B]);
   At(() => {
     const h = g.current, p = u.current;
     if (h) {
-      const F = h.parentElement, T = F ? F.getBoundingClientRect().height : window.innerHeight;
-      G.current = v - T;
+      const F = h.parentElement, m = F ? F.getBoundingClientRect().height : window.innerHeight;
+      G.current = v - m;
       const V = (M) => {
-        const R = Math.max(et.current, Math.min(M, G.current));
-        S.current = R, h.scrollTop = R, p == null || p.setPosition(R), _(R);
+        const S = Math.max(et.current, Math.min(M, G.current));
+        R.current = S, h.scrollTop = S, p == null || p.setPosition(S), P(S);
       }, k = () => {
-        const M = Date.now(), R = M - d.current;
+        const M = Date.now(), S = M - d.current;
         d.current = M;
-        const j = S.current - o.current;
-        o.current = S.current;
-        const a = 1e3 * j / (1 + R);
+        const j = R.current - o.current;
+        o.current = R.current;
+        const a = 1e3 * j / (1 + S);
         b.current = 0.8 * a + 0.2 * b.current;
       }, z = () => {
-        const M = Date.now() - d.current, R = -c.current * Math.exp(-M / J.current);
-        if (Math.abs(b.current) > N.current && Math.abs(R) > w.current)
-          V(o.current + R), requestAnimationFrame(z);
+        const M = Date.now() - d.current, S = -c.current * Math.exp(-M / J.current);
+        if (Math.abs(b.current) > O.current && Math.abs(S) > w.current)
+          V(o.current + S), requestAnimationFrame(z);
         else {
-          const a = Math.round(o.current / A) * A;
+          const a = Math.round(o.current / C) * C;
           V(a), f(a);
         }
       }, ct = () => {
-        if (C.current = !1, P.current && clearInterval(P.current), Math.abs(b.current) > N.current) {
-          c.current = 0.8 * b.current, o.current = Math.round(S.current + c.current);
+        if (y.current = !1, N.current && clearInterval(N.current), Math.abs(b.current) > O.current) {
+          c.current = 0.8 * b.current, o.current = Math.round(R.current + c.current);
           const M = 50;
           o.current = Math.round(o.current / M) * M, o.current = Math.max(et.current, Math.min(o.current, G.current)), d.current = Date.now(), requestAnimationFrame(z);
         } else {
           H("No momentum scrolling as velocity is too low.");
-          const M = A / 2;
-          let R;
-          S.current % A < M ? R = Math.floor(S.current / A) : R = Math.ceil(S.current / A);
-          const j = R * A;
+          const M = C / 2;
+          let S;
+          R.current % C < M ? S = Math.floor(R.current / C) : S = Math.ceil(R.current / C);
+          const j = S * C;
           V(j), f(j);
         }
       }, q = new pe(h);
       return q.get("pan").set({ direction: pe.DIRECTION_VERTICAL }), q.on("panstart", (M) => {
-        C.current = !0, y.current = M.center.y, b.current = c.current = 0, o.current = S.current, d.current = Date.now(), P.current && clearInterval(P.current), P.current = setInterval(k, 50);
+        y.current = !0, I.current = M.center.y, b.current = c.current = 0, o.current = R.current, d.current = Date.now(), N.current && clearInterval(N.current), N.current = setInterval(k, 50);
       }), q.on("panmove", (M) => {
-        if (C.current) {
-          const R = M.center.y, j = y.current - R;
-          y.current = R, Math.abs(j) > 1 && V(S.current + j);
+        if (y.current) {
+          const S = M.center.y, j = I.current - S;
+          I.current = S, Math.abs(j) > 1 && V(R.current + j);
         }
       }), q.on("panend", ct), () => {
         q.off("panstart", ct), q.off("panmove", ct), q.off("panend", ct), q.destroy();
       };
     }
-  }, [g, v, _, f, u, H, A]);
+  }, [g, v, P, f, u, H, C]);
   const Q = Z((h) => {
-    const p = h * A, F = g.current, T = u.current;
-    T == null || T.setPosition(p), F && (F.scrollTo({ top: p, behavior: "smooth" }), S.current = p), _(p);
+    const p = h * C, F = g.current, m = u.current;
+    m == null || m.setPosition(p), F && (F.scrollTo({ top: p, behavior: "smooth" }), R.current = p), P(p);
     const V = () => {
       var z;
       ((z = g.current) == null ? void 0 : z.scrollTop) === p ? f(p) : requestAnimationFrame(V);
     };
     requestAnimationFrame(V);
-  }, [A, g, u, _, f]);
+  }, [C, g, u, P, f]);
   return {
-    offset: S.current,
+    offset: R.current,
     scrollToRow: Q
   };
 }, tr = "_container_100u3_1", er = "_thumb_100u3_6", de = {
   container: tr,
   thumb: er
 }, me = ze((g, u) => {
-  const _ = E(null), f = E(null), { "aria-label": A, containerHeight: B, totalHeight: S, show: C = !0 } = g;
+  const P = E(null), f = E(null), { "aria-label": C, containerHeight: B, totalHeight: R, show: y = !0 } = g;
   return $e(u, () => ({
-    setPosition: (y) => {
-      _.current && (_.current.style.top = `${y * (B - 25) / S}px`);
+    setPosition: (I) => {
+      P.current && (P.current.style.top = `${I * (B - 25) / R}px`);
     }
   })), /* @__PURE__ */ vt(
     "div",
     {
-      "aria-label": A,
+      "aria-label": C,
       ref: f,
       className: de.container,
-      style: { display: C ? "block" : "none" },
+      style: { display: y ? "block" : "none" },
       children: /* @__PURE__ */ vt(
         "div",
         {
           className: de.thumb,
           style: { "--thumb-height": "25px" },
-          ref: _
+          ref: P
         }
       )
     }
@@ -1295,35 +1295,35 @@ function ir({
   onCellContentUpdated: u,
   rowsPerPage: v = 100
 }) {
-  const _ = E({
+  const P = E({
     previousPage: { data: [], pageNumber: null },
     visiblePage: { data: [], pageNumber: null },
     nextPage: { data: [], pageNumber: null }
-  }), f = E(null), A = E(!1), B = E(null), S = Z(
+  }), f = E(null), C = E(!1), B = E(null), R = Z(
     async (c) => {
-      if (c < 1 || A.current)
+      if (c < 1 || C.current)
         return [];
       try {
-        return A.current = !0, await g(c);
+        return C.current = !0, await g(c);
       } catch (o) {
         return console.error("Error fetching page data:", o), [];
       } finally {
-        A.current = !1, u && u();
+        C.current = !1, u && u();
       }
     },
     [g, u]
-  ), C = Z(
+  ), y = Z(
     (c) => {
       const o = Math.floor(c / v) + 1;
       f.current = o;
-      const { nextPage: d, visiblePage: P, previousPage: J } = _.current;
-      J.data.length === 0 && console.log("Prev page is Empty!"), d.data.length === 0 && console.log("Next page is Empty!"), P.data.length === 0 && console.log("Visible page is Empty!"), u && u();
+      const { nextPage: d, visiblePage: N, previousPage: J } = P.current;
+      J.data.length === 0 && console.log("Prev page is Empty!"), d.data.length === 0 && console.log("Next page is Empty!"), N.data.length === 0 && console.log("Visible page is Empty!"), u && u();
     },
     [u, v]
-  ), y = Z(
+  ), I = Z(
     async (c) => {
-      const o = _.current, d = c - 1, P = c + 1, { previousPage: J, visiblePage: N, nextPage: w } = o, H = (h) => {
-        const p = [J, N, w].find(
+      const o = P.current, d = c - 1, N = c + 1, { previousPage: J, visiblePage: O, nextPage: w } = o, H = (h) => {
+        const p = [J, O, w].find(
           (F) => F.pageNumber === h
         );
         return p ? { ...p, data: [...p.data] } : null;
@@ -1332,37 +1332,37 @@ function ir({
         if (F)
           return p(F), !1;
         {
-          const T = await S(h);
-          return p({ data: T, pageNumber: h }), !0;
+          const m = await R(h);
+          return p({ data: m, pageNumber: h }), !0;
         }
       };
       try {
         let h = !1;
         o.visiblePage.pageNumber !== c && (h = await Q(
           c,
-          (T) => o.visiblePage = T
+          (m) => o.visiblePage = m
         ));
         const p = [];
         o.previousPage.pageNumber !== d && c > 1 && p.push(
-          Q(d, (T) => o.previousPage = T)
-        ), o.nextPage.pageNumber !== P && p.push(
-          Q(P, (T) => o.nextPage = T)
+          Q(d, (m) => o.previousPage = m)
+        ), o.nextPage.pageNumber !== N && p.push(
+          Q(N, (m) => o.nextPage = m)
         ), (await Promise.all(p)).includes(!0) && (h = !0), h && u && u();
       } catch (h) {
         console.error("Error while fetching pages in parallel:", h);
       }
     },
-    [S, u]
+    [R, u]
   ), et = Z(
     (c) => {
       B.current && clearTimeout(B.current), B.current = setTimeout(() => {
-        C(c);
+        y(c);
       }, 100);
     },
-    [C]
+    [y]
   ), G = Z(
     async (c) => {
-      if (A.current)
+      if (C.current)
         return;
       const o = Math.floor(c / v) + 1;
       if (o === f.current) {
@@ -1370,24 +1370,24 @@ function ir({
         return;
       }
       if (f.current === null) {
-        f.current = o, await y(o), C(c);
+        f.current = o, await I(o), y(c);
         return;
       }
-      await y(o), _.current.visiblePage.pageNumber === o && C(c);
+      await I(o), P.current.visiblePage.pageNumber === o && y(c);
     },
-    [et, v, C, y]
+    [et, v, y, I]
   ), b = (c) => {
-    const o = Math.floor(c / v) + 1, d = c % v, { previousPage: P, visiblePage: J, nextPage: N } = _.current, w = f.current;
+    const o = Math.floor(c / v) + 1, d = c % v, { previousPage: N, visiblePage: J, nextPage: O } = P.current, w = f.current;
     let H;
     switch (o) {
       case w - 1:
-        H = P.data;
+        H = N.data;
         break;
       case w:
         H = J.data;
         break;
       case w + 1:
-        H = N.data;
+        H = O.data;
         break;
       default:
         return { title: "Loading..." };
@@ -1402,67 +1402,67 @@ function sr({
   rowCount: g,
   fetchPageData: u,
   rowHeight: v = 50,
-  onEndReached: _,
+  onEndReached: P,
   loadMoreThreshold: f = 10,
-  rowsPerPage: A,
+  rowsPerPage: C,
   renderCell: B,
-  onRowDoubleClick: S,
-  onTopRowChanged: C,
-  apiRef: y,
+  onRowDoubleClick: R,
+  onTopRowChanged: y,
+  apiRef: I,
   hideVerticalScrollbar: et = !1,
   debug: G = !1
 }) {
-  const b = E(null), c = E(null), o = E(null), d = E([]), P = E(0), J = E(0), N = E(0), [w, H] = Be(800), Q = g * v, h = Z((...a) => {
+  const b = E(null), c = E(null), o = E(null), d = E([]), N = E(0), J = E(0), O = E(0), [w, H] = Be(800), Q = g * v, h = Z((...a) => {
     G && console.log(...a);
-  }, [G]), p = Z((a, m, O) => {
+  }, [G]), p = Z((a, T, A) => {
     const L = document.createElement("div"), U = je.createRoot(L);
-    L.style.width = "100%", L.style.height = "100%", U.render(B(m, O)), a.innerHTML = "", a.appendChild(L);
+    L.style.width = "100%", L.style.height = "100%", U.render(B(T, A)), a.innerHTML = "", a.appendChild(L);
   }, [B]), F = () => {
     d.current.forEach(async (a) => {
-      var m;
+      var T;
       if (a) {
-        const O = parseInt(((m = a.dataset) == null ? void 0 : m.rowIndex) || "0", 10);
+        const A = parseInt(((T = a.dataset) == null ? void 0 : T.rowIndex) || "0", 10);
         if (!a.textContent || a.textContent.indexOf("Loading...") !== -1) {
-          const U = await T(O);
-          U && p(a, U, O);
+          const U = await m(A);
+          U && p(a, U, A);
         }
       }
     });
-  }, { getRowData: T, updateAndSyncCache: V } = ir({
+  }, { getRowData: m, updateAndSyncCache: V } = ir({
     fetchPageData: u,
     onCellContentUpdated: F,
-    rowsPerPage: A
+    rowsPerPage: C
   }), k = Z((a) => {
-    const m = Math.floor(w / v), L = Math.max(0, Math.floor((a + 5) / v)), U = Math.min(g - 1, L + m - 1);
+    const T = Math.floor(w / v), L = Math.max(0, Math.floor((a + 5) / v)), U = Math.min(g - 1, L + T - 1);
     return h(`scrollTop: ${a}, firstRow: ${L}, lastRow: ${U}`), { firstRow: L, lastRow: U };
-  }, [h, g, v, w]), z = Z(async (a, m) => {
-    m.dataset.rowIndex = a.toString(), m.innerHTML = "Loading...";
-    const O = await T(a);
-    p(m, O, a), m.style.transform = `translateY(${a * v}px)`;
-  }, [T, p, v]), ct = Z((a) => {
+  }, [h, g, v, w]), z = Z(async (a, T) => {
+    T.dataset.rowIndex = a.toString(), T.innerHTML = "Loading...";
+    const A = await m(a);
+    p(T, A, a), T.style.transform = `translateY(${a * v}px)`;
+  }, [m, p, v]), ct = Z((a) => {
     h(`Handling scroll with scrollTop: ${a}`);
-    const { firstRow: m, lastRow: O } = k(a);
-    V(m), h(`Visible rows from ${m} to ${O}`), d.current.forEach((L) => {
+    const { firstRow: T, lastRow: A } = k(a);
+    V(T), h(`Visible rows from ${T} to ${A}`), d.current.forEach((L) => {
       var U;
       if (L) {
         const it = parseInt(((U = L.dataset) == null ? void 0 : U.rowIndex) || "0", 10);
-        if (it < m - P.current / 3) {
-          const rt = J.current, x = it + P.current;
-          J.current = Math.max(rt + 1, O), h(`Recycling row ${it} to new row ${x} (scrolling down).`), z(x, L);
-        } else if (it > O + P.current / 3) {
-          const rt = it - P.current;
+        if (it < T - N.current / 3) {
+          const rt = J.current, x = it + N.current;
+          J.current = Math.max(rt + 1, A), h(`Recycling row ${it} to new row ${x} (scrolling down).`), z(x, L);
+        } else if (it > A + N.current / 3) {
+          const rt = it - N.current;
           h(`Recycling row ${it} to new row ${rt} (scrolling up).`), z(rt, L);
         }
       }
-    }), b.current && b.current.scrollHeight - a - w < f && (h("End of scroll reached, triggering onEndReached."), _ && _());
-  }, [k, z, f, h, _, V, w]), q = Z((a) => {
-    N.current = a;
-    const { firstRow: m } = k(a);
-    if (C) {
-      const O = T(m);
-      C(O);
+    }), b.current && b.current.scrollHeight - a - w < f && (h("End of scroll reached, triggering onEndReached."), P && P());
+  }, [k, z, f, h, P, V, w]), q = Z((a) => {
+    O.current = a;
+    const { firstRow: T } = k(a);
+    if (y) {
+      const A = m(T);
+      y(A);
     }
-  }, [k, T, C]), { scrollToRow: M } = Ke({
+  }, [k, m, y]), { scrollToRow: M } = Ke({
     viewRef: o,
     indicatorRef: c,
     totalHeight: Q,
@@ -1471,27 +1471,30 @@ function sr({
     rowHeight: v
   });
   At(() => {
-    y && (y.current = { scrollToRow: M });
-  }, [M, y]), At(() => {
+    I && (I.current = { scrollToRow: M });
+  }, [M, I]), At(() => {
     const a = () => {
       o.current && H(o.current.clientHeight);
     };
     return a(), window.addEventListener("resize", a), () => window.removeEventListener("resize", a);
-  }, []), P.current = Math.ceil(w / v) * 3, At(() => {
-    F();
+  }, []), N.current = Math.ceil(w / v) * 3, At(() => {
+    if (F(), y) {
+      const a = m(0);
+      y(a);
+    }
   });
-  const R = (a) => {
-    const m = a.currentTarget, O = parseInt(m.dataset.rowIndex || "-1");
-    O && S && S(O, y == null ? void 0 : y.current);
+  const S = (a) => {
+    const T = a.currentTarget, A = parseInt(T.dataset.rowIndex || "-1");
+    A && R && R(A, I == null ? void 0 : I.current);
   }, j = () => {
-    const a = N.current, { firstRow: m, lastRow: O } = k(a), L = Array.from({ length: P.current }).map((rt, x) => {
+    const a = O.current, { firstRow: T, lastRow: A } = k(a), L = Array.from({ length: N.current }).map((rt, x) => {
       const pt = Math.max(0, x * v - a);
       return /* @__PURE__ */ vt(
         "div",
         {
           "data-row-index": x,
-          ref: (I) => {
-            I && (d.current[x] = I);
+          ref: (_) => {
+            _ && (d.current[x] = _);
           },
           style: {
             height: v,
@@ -1502,18 +1505,18 @@ function sr({
             justifyContent: "flex-start",
             transform: `translateY(${pt}px)`
           },
-          onDoubleClick: R
+          onDoubleClick: S
         },
         `prev-${x}`
       );
-    }), U = Array.from({ length: O - m + 1 }).map((rt, x) => {
-      const pt = (m + x) * v - a;
+    }), U = Array.from({ length: A - T + 1 }).map((rt, x) => {
+      const pt = (T + x) * v - a;
       return /* @__PURE__ */ vt(
         "div",
         {
-          "data-row-index": m + x,
-          ref: (I) => {
-            I && (d.current[m + x] = I);
+          "data-row-index": T + x,
+          ref: (_) => {
+            _ && (d.current[T + x] = _);
           },
           style: {
             height: v,
@@ -1524,18 +1527,18 @@ function sr({
             justifyContent: "flex-start",
             transform: `translateY(${pt}px)`
           },
-          onDoubleClick: R
+          onDoubleClick: S
         },
-        `visible-${m + x}`
+        `visible-${T + x}`
       );
-    }), it = Array.from({ length: P.current }).map((rt, x) => {
-      const pt = (x + (O + 1)) * v - a;
+    }), it = Array.from({ length: N.current }).map((rt, x) => {
+      const pt = (x + (A + 1)) * v - a;
       return /* @__PURE__ */ vt(
         "div",
         {
-          "data-row-index": x + (O + 1),
-          ref: (I) => {
-            I && (d.current[x + (O + 1)] = I);
+          "data-row-index": x + (A + 1),
+          ref: (_) => {
+            _ && (d.current[x + (A + 1)] = _);
           },
           style: {
             height: v,
@@ -1546,7 +1549,7 @@ function sr({
             justifyContent: "flex-start",
             transform: `translateY(${pt}px)`
           },
-          onDoubleClick: R
+          onDoubleClick: S
         },
         `next-${x}`
       );
@@ -1574,9 +1577,9 @@ function sr({
 }
 const ar = (g, u) => {
   const v = Object.keys(g);
-  for (const _ of v)
-    if (g[_] !== u[_])
-      return console.log(`Prop changed: ${_}`), !1;
+  for (const P of v)
+    if (g[P] !== u[P])
+      return console.log(`Prop changed: ${P}`), !1;
   return !0;
 }, ur = Ge.memo(sr, ar);
 export {

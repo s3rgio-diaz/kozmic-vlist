@@ -194,6 +194,10 @@ function VirtualList<T extends Record<string, unknown>>({
 
   useEffect(() => {
     handleCellContentUpdate();
+    if (onTopRowChanged) {
+      const data = getRowData(0);
+      onTopRowChanged(data);
+    }
   });
 
   const handleDoubleClick = (event: MouseEvent<HTMLDivElement>) => {
