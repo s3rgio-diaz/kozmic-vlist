@@ -67,7 +67,7 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
       const { nextPage, visiblePage, previousPage } = cache.current;
 
       if (previousPage.data.length === 0) {
-        console.log('Prev page is Empty!');
+        // console.log('Prev page is Empty!');
       }
       if (nextPage.data.length === 0) {
         console.log('Next page is Empty!');

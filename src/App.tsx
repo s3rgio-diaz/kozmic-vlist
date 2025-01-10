@@ -15,13 +15,11 @@ const generatePageData = (pageIndex: number): Promise<SampleData[]> => {
     id: offset + index + 1,
     name: `Item ${offset + index + 1}`,
   }));
-  console.log(`Sample Items ${JSON.stringify(sampleItems)}`);
   return Promise.resolve(sampleItems);
 }
 
 // Function to render each row.
 const renderCell = (rowData: SampleData, rowIndex: number) => {
-  console.log('renderCell', `rowIndex ${rowIndex} ${JSON.stringify(rowData)}`);
   return (<div className="virtual-list-item">
     <strong>{rowData.name}</strong> (Row {rowIndex + 1})
   </div>);

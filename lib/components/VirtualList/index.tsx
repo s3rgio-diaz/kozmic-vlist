@@ -193,12 +193,21 @@ function VirtualList<T extends Record<string, unknown>>({
   poolSize.current = Math.ceil(viewHeight / rowHeight) * 3;
 
   useEffect(() => {
-    handleCellContentUpdate();
-    if (onTopRowChanged) {
-      const data = getRowData(0);
-      onTopRowChanged(data);
-    }
-  });
+    const updateTopRowData = async () => {
+      await handleCellContentUpdate();
+      if (onTopRowChanged) {
+        // Ensure data is resolved.
+        const data = await getRowData(0);
+        if (data) {
+          onTopRowChanged(data);
+        }
+      }
+    };
+    updateTopRowData().catch((err) => {
+      console.error('Failed to update top row data:', err);
+    });
+  }, [getRowData, handleCellContentUpdate, onTopRowChanged]);
+  
 
   const handleDoubleClick = (event: MouseEvent<HTMLDivElement>) => {
     const rowElement = event.currentTarget;
@@ -290,7 +299,6 @@ function VirtualList<T extends Record<string, unknown>>({
     return [...previousPageRows, ...visibleRows, ...nextPageRows];
   };
 
-  console.log('Kozmic VirtualList redering... (5)');
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%' }}>
       <div
@@ -319,7 +327,6 @@ const arePropsEqual = <T extends Record<string, unknown>>(
   // Check each prop for equality
   for (const key of keys) {
     if (prevProps[key] !== nextProps[key]) {
-      console.log(`Prop changed: ${key}`);  // Log the name of the property that changed
       return false;  // If any prop is different, return false
     }
   }
