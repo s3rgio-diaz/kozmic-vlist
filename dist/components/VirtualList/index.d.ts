@@ -11,7 +11,7 @@ interface VirtualListProps<T extends Record<string, unknown>> {
     onEndReached?: () => void;
     loadMoreThreshold?: number;
     onRowDoubleClick?: (rowIndex: number, apiRef: VirtualListApi | undefined) => void;
-    onTopRowChanged?: (rowData: T) => void;
+    onTopRowChanged?: (rowIndex: number, rowData: T) => void;
     apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
     hideVerticalScrollbar?: boolean;
     debug?: boolean;

@@ -1460,7 +1460,7 @@ function sr({
     const { firstRow: f } = k(a);
     if (y) {
       const O = m(f);
-      y(O);
+      y(f, O);
     }
   }, [k, m, y]), { scrollToRow: M } = Ke({
     viewRef: o,
@@ -1481,7 +1481,7 @@ function sr({
     (async () => {
       if (await L(), y) {
         const f = await m(0);
-        f && y(f);
+        f && y(0, f);
       }
     })().catch((f) => {
       console.error("Failed to update top row data:", f);
