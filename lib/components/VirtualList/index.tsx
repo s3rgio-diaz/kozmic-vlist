@@ -18,7 +18,7 @@ interface VirtualListProps<T extends Record<string, unknown>> {
   onEndReached?: () => void;
   loadMoreThreshold?: number;
   onRowDoubleClick?: (rowIndex: number, apiRef: VirtualListApi | undefined) => void;
-  onTopRowChanged?: (rowData: T) => void;
+  onTopRowChanged?: (rowIndex: number, rowData: T) => void;
   apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
   hideVerticalScrollbar?: boolean;
   debug?: boolean;
@@ -155,7 +155,7 @@ function VirtualList<T extends Record<string, unknown>>({
 
     if (onTopRowChanged) {
       const data = getRowData(firstRow);
-      onTopRowChanged(data);
+      onTopRowChanged(firstRow, data);
     }
   }, [calculateVisibleRows, getRowData, onTopRowChanged]);
 
@@ -199,7 +199,7 @@ function VirtualList<T extends Record<string, unknown>>({
         // Ensure data is resolved.
         const data = await getRowData(0);
         if (data) {
-          onTopRowChanged(data);
+          onTopRowChanged(0, data);
         }
       }
     };
