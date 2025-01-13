@@ -96,8 +96,7 @@ const useKineticScroll = ({
         if (Math.abs(velocityRef.current) > velocityThresholdRef.current) {
           amplitudeRef.current = 0.8 * velocityRef.current;
           targetRef.current = Math.round(offsetRef.current + amplitudeRef.current);
-          const snap = 50;
-          targetRef.current = Math.round(targetRef.current / snap) * snap;
+          targetRef.current = Math.round(targetRef.current / rowHeight) * rowHeight;
           targetRef.current = Math.max(minRef.current, Math.min(targetRef.current, maxRef.current));
 
           timestampRef.current = Date.now();
