@@ -25,6 +25,6 @@ To quickly try out **kozmic-vlist**, follow these steps:
    `npm install`
 2. Run the development server:
    `npm run dev`
-3. Check `src/App.tsx` to inspect the code and see the implementation.
+3. Check [src/App.tsx](https://github.com/s3rgio-diaz/kozmic-vlist/blob/main/src/App.tsx) to inspect the code and see the implementation.
 
-👀 You can also see a sample of **kozmic-vlist** in action [here](https://themoviereel.sergiolabs.tech/). 👈
+You can also see a sample of **kozmic-vlist** in action [here](https://themoviereel.sergiolabs.tech/). 👈 👀
