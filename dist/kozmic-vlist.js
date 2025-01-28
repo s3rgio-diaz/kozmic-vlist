@@ -16,7 +16,7 @@ function Je() {
     (function(u, p, C, v) {
       var I = ["", "webkit", "Moz", "MS", "ms", "o"], B = p.createElement("div"), S = "function", y = Math.round, _ = Math.abs, et = Date.now;
       function G(t, e, r) {
-        return setTimeout(x(t, r), e);
+        return setTimeout(b(t, r), e);
       }
       function D(t, e, r) {
         return Array.isArray(t) ? (c(t, r[e], r), !0) : !1;
@@ -65,7 +65,7 @@ function Je() {
         var n = e.prototype, i;
         i = t.prototype = Object.create(n), i.constructor = t, i._super = n, r && T(i, r);
       }
-      function x(t, e) {
+      function b(t, e) {
         return function() {
           return t.apply(e, arguments);
         };
@@ -138,7 +138,7 @@ function Je() {
         var e = t.ownerDocument || t;
         return e.defaultView || e.parentWindow || u;
       }
-      var a = /mobile|tablet|ip(ad|hone|od)|android/i, f = "ontouchstart" in u, A = q(u, "PointerEvent") !== v, L = f && a.test(navigator.userAgent), U = "touch", it = "pen", rt = "mouse", b = "kinect", pt = 25, P = 1, dt = 2, M = 4, $ = 8, Ct = 1, Et = 2, yt = 4, It = 8, _t = 16, st = Et | yt, Tt = It | _t, Bt = st | Tt, jt = ["x", "y"], Rt = ["clientX", "clientY"];
+      var a = /mobile|tablet|ip(ad|hone|od)|android/i, f = "ontouchstart" in u, A = q(u, "PointerEvent") !== v, L = f && a.test(navigator.userAgent), U = "touch", it = "pen", rt = "mouse", x = "kinect", pt = 25, P = 1, dt = 2, M = 4, $ = 8, Ct = 1, Et = 2, yt = 4, It = 8, _t = 16, st = Et | yt, Tt = It | _t, Bt = st | Tt, jt = ["x", "y"], Rt = ["clientX", "clientY"];
       function K(t, e) {
         var r = this;
         this.manager = t, this.callback = e, this.element = t.element, this.target = t.options.inputTarget, this.domHandler = function(n) {
@@ -288,7 +288,7 @@ function Je() {
         2: U,
         3: it,
         4: rt,
-        5: b
+        5: x
         // see https://twitter.com/jacobrossi/status/480596438489890816
       }, te = "pointerdown", ee = "pointermove pointerup pointercancel";
       u.MSPointerEvent && !u.PointerEvent && (te = "MSPointerDown", ee = "MSPointerMove MSPointerUp MSPointerCancel");
@@ -323,7 +323,7 @@ function Je() {
         handler: function(e) {
           var r = Se[e.type];
           if (r === P && (this.started = !0), !!this.started) {
-            var n = be.call(this, e, r);
+            var n = xe.call(this, e, r);
             r & (M | $) && n[0].length - n[1].length === 0 && (this.started = !1), this.callback(this.manager, r, {
               pointers: n[0],
               changedPointers: n[1],
@@ -333,11 +333,11 @@ function Je() {
           }
         }
       });
-      function be(t, e) {
+      function xe(t, e) {
         var r = z(t.touches), n = z(t.changedTouches);
         return e & (M | $) && (r = ct(r.concat(n), "identifier")), [r, n];
       }
-      var xe = {
+      var be = {
         touchstart: P,
         touchmove: dt,
         touchend: M,
@@ -348,7 +348,7 @@ function Je() {
       }
       O(Dt, K, {
         handler: function(e) {
-          var r = xe[e.type], n = Le.call(this, e, r);
+          var r = be[e.type], n = Le.call(this, e, r);
           n && this.callback(this.manager, r, {
             pointers: n[0],
             changedPointers: n[1],
@@ -379,7 +379,7 @@ function Je() {
       var Ue = 2500, ne = 25;
       function Ht() {
         K.apply(this, arguments);
-        var t = x(this.handler, this);
+        var t = b(this.handler, this);
         this.touch = new Dt(this.manager, t), this.mouse = new Mt(this.manager, t), this.primaryTouch = null, this.lastTouches = [];
       }
       O(Ht, K, {
@@ -429,7 +429,7 @@ function Je() {
         }
         return !1;
       }
-      var se = q(B.style, "touchAction"), ae = se !== v, oe = "compute", ce = "auto", Xt = "manipulation", mt = "none", Pt = "pan-x", Nt = "pan-y", bt = Xe();
+      var se = q(B.style, "touchAction"), ae = se !== v, oe = "compute", ce = "auto", Xt = "manipulation", mt = "none", Pt = "pan-x", Nt = "pan-y", xt = Xe();
       function Vt(t, e) {
         this.manager = t, this.set(e);
       }
@@ -439,7 +439,7 @@ function Je() {
          * @param {String} value
          */
         set: function(t) {
-          t == oe && (t = this.compute()), ae && this.manager.element.style && bt[t] && (this.manager.element.style[se] = t), this.actions = t.toLowerCase().trim();
+          t == oe && (t = this.compute()), ae && this.manager.element.style && xt[t] && (this.manager.element.style[se] = t), this.actions = t.toLowerCase().trim();
         },
         /**
          * just re-set the touchAction value
@@ -467,7 +467,7 @@ function Je() {
             e.preventDefault();
             return;
           }
-          var n = this.actions, i = m(n, mt) && !bt[mt], s = m(n, Nt) && !bt[Nt], l = m(n, Pt) && !bt[Pt];
+          var n = this.actions, i = m(n, mt) && !xt[mt], s = m(n, Nt) && !xt[Nt], l = m(n, Pt) && !xt[Pt];
           if (i) {
             var Y = t.pointers.length === 1, X = t.distance < 2, W = t.deltaTime < 250;
             if (Y && X && W)
@@ -498,9 +498,9 @@ function Je() {
           t[r] = e ? u.CSS.supports("touch-action", r) : !0;
         }), t;
       }
-      var xt = 1, tt = 2, gt = 4, ht = 8, lt = ht, Ot = 16, at = 32;
+      var bt = 1, tt = 2, gt = 4, ht = 8, lt = ht, Ot = 16, at = 32;
       function ut(t) {
-        this.options = T({}, this.defaults, t || {}), this.id = R(), this.manager = null, this.options.enable = Q(this.options.enable, !0), this.state = xt, this.simultaneous = {}, this.requireFail = [];
+        this.options = T({}, this.defaults, t || {}), this.id = R(), this.manager = null, this.options.enable = Q(this.options.enable, !0), this.state = bt, this.simultaneous = {}, this.requireFail = [];
       }
       ut.prototype = {
         /**
@@ -602,7 +602,7 @@ function Je() {
          */
         canEmit: function() {
           for (var t = 0; t < this.requireFail.length; ) {
-            if (!(this.requireFail[t].state & (at | xt)))
+            if (!(this.requireFail[t].state & (at | bt)))
               return !1;
             t++;
           }
@@ -618,7 +618,7 @@ function Je() {
             this.reset(), this.state = at;
             return;
           }
-          this.state & (lt | Ot | at) && (this.state = xt), this.state = this.process(e), this.state & (tt | gt | ht | Ot) && this.tryEmit(e);
+          this.state & (lt | Ot | at) && (this.state = bt), this.state = this.process(e), this.state & (tt | gt | ht | Ot) && this.tryEmit(e);
         },
         /**
          * return the state of the recognizer
@@ -1138,7 +1138,7 @@ function Je() {
         INPUT_MOVE: dt,
         INPUT_END: M,
         INPUT_CANCEL: $,
-        STATE_POSSIBLE: xt,
+        STATE_POSSIBLE: bt,
         STATE_BEGAN: tt,
         STATE_CHANGED: gt,
         STATE_ENDED: ht,
@@ -1176,7 +1176,7 @@ function Je() {
         extend: N,
         assign: T,
         inherit: O,
-        bindFn: x,
+        bindFn: b,
         prefixed: q
       });
       var qe = typeof u < "u" ? u : typeof self < "u" ? self : {};
@@ -1194,7 +1194,7 @@ const pe = /* @__PURE__ */ Ze(Qe), Ke = ({
   rowHeight: I,
   debug: B = !1
 }) => {
-  const S = E(0), y = E(!1), _ = E(0), et = E(0), G = E(0), D = E(0), c = E(0), o = E(0), T = E(0), N = E(null), J = E(325), O = E(0.02), x = E(0.5), F = Z((...h) => {
+  const S = E(0), y = E(!1), _ = E(0), et = E(0), G = E(0), D = E(0), c = E(0), o = E(0), T = E(0), N = E(null), J = E(325), O = E(0.02), b = E(0.5), F = Z((...h) => {
     B && console.log(...h);
   }, [B]);
   At(() => {
@@ -1214,7 +1214,7 @@ const pe = /* @__PURE__ */ Ze(Qe), Ke = ({
         D.current = 0.8 * a + 0.2 * D.current;
       }, z = () => {
         const H = Date.now() - T.current, R = -c.current * Math.exp(-H / J.current);
-        if (Math.abs(D.current) > O.current && Math.abs(R) > x.current)
+        if (Math.abs(D.current) > O.current && Math.abs(R) > b.current)
           V(o.current + R), requestAnimationFrame(z);
         else {
           const a = Math.round(o.current / I) * I;
@@ -1320,8 +1320,8 @@ function ir({
     [u, p]
   ), _ = Z(
     async (c) => {
-      const o = C.current, T = c - 1, N = c + 1, { previousPage: J, visiblePage: O, nextPage: x } = o, F = (h) => {
-        const d = [J, O, x].find(
+      const o = C.current, T = c - 1, N = c + 1, { previousPage: J, visiblePage: O, nextPage: b } = o, F = (h) => {
+        const d = [J, O, b].find(
           (w) => w.pageNumber === h
         );
         return d ? { ...d, data: [...d.data] } : null;
@@ -1375,16 +1375,16 @@ function ir({
     },
     [et, p, y, _]
   ), D = (c) => {
-    const o = Math.floor(c / p) + 1, T = c % p, { previousPage: N, visiblePage: J, nextPage: O } = C.current, x = v.current;
+    const o = Math.floor(c / p) + 1, T = c % p, { previousPage: N, visiblePage: J, nextPage: O } = C.current, b = v.current;
     let F;
     switch (o) {
-      case x - 1:
+      case b - 1:
         F = N.data;
         break;
-      case x:
+      case b:
         F = J.data;
         break;
-      case x + 1:
+      case b + 1:
         F = O.data;
         break;
       default:
@@ -1410,7 +1410,7 @@ function sr({
   hideVerticalScrollbar: et = !1,
   debug: G = !1
 }) {
-  const D = E(null), c = E(null), o = E(null), T = E([]), N = E(0), J = E(0), O = E(0), [x, F] = Be(800), Q = g * p, h = Z((...a) => {
+  const D = E(null), c = E(null), o = E(null), T = E([]), N = E(0), J = E(0), O = E(0), [b, F] = Be(800), Q = g * p, h = Z((...a) => {
     G && console.log(...a);
   }, [G]), d = Z((a, f, A) => {
     const L = document.createElement("div"), U = je.createRoot(L);
@@ -1431,9 +1431,9 @@ function sr({
     onCellContentUpdated: w,
     rowsPerPage: I
   }), k = Z((a) => {
-    const f = Math.floor(x / p), L = Math.max(0, Math.floor((a + 5) / p)), U = Math.min(g - 1, L + f - 1);
+    const f = Math.floor(b / p), L = Math.max(0, Math.floor((a + 5) / p)), U = Math.min(g - 1, L + f - 1);
     return h(`scrollTop: ${a}, firstRow: ${L}, lastRow: ${U}`), { firstRow: L, lastRow: U };
-  }, [h, g, p, x]), z = Z(async (a, f) => {
+  }, [h, g, p, b]), z = Z(async (a, f) => {
     f.dataset.rowIndex = a.toString(), f.innerHTML = "Loading...";
     const A = await m(a);
     d(f, A, a), f.style.transform = `translateY(${a * p}px)`;
@@ -1445,15 +1445,15 @@ function sr({
       if (L) {
         const it = parseInt(((U = L.dataset) == null ? void 0 : U.rowIndex) || "0", 10);
         if (it < f - N.current / 3) {
-          const rt = J.current, b = it + N.current;
-          J.current = Math.max(rt + 1, A), h(`Recycling row ${it} to new row ${b} (scrolling down).`), z(b, L);
+          const rt = J.current, x = it + N.current;
+          J.current = Math.max(rt + 1, A), h(`Recycling row ${it} to new row ${x} (scrolling down).`), z(x, L);
         } else if (it > A + N.current / 3) {
           const rt = it - N.current;
           h(`Recycling row ${it} to new row ${rt} (scrolling up).`), z(rt, L);
         }
       }
-    }), D.current && D.current.scrollHeight - a - x < v && (h("End of scroll reached, triggering onEndReached."), C && C());
-  }, [k, z, v, h, C, V, x]), q = Z((a) => {
+    }), D.current && D.current.scrollHeight - a - b < v && (h("End of scroll reached, triggering onEndReached."), C && C());
+  }, [k, z, v, h, C, V, b]), q = Z((a) => {
     O.current = a;
     const { firstRow: f } = k(a);
     if (y) {
@@ -1475,7 +1475,7 @@ function sr({
       o.current && F(o.current.clientHeight);
     };
     return a(), window.addEventListener("resize", a), () => window.removeEventListener("resize", a);
-  }, []), N.current = Math.ceil(x / p) * 3, At(() => {
+  }, []), N.current = Math.ceil(b / p) * 3, At(() => {
     (async () => {
       if (await w(), y) {
         const f = await m(0);
@@ -1489,14 +1489,14 @@ function sr({
     const f = a.currentTarget, A = parseInt(f.dataset.rowIndex || "-1");
     A && S && S(A, _ == null ? void 0 : _.current);
   }, j = () => {
-    const a = O.current, { firstRow: f, lastRow: A } = k(a), L = Array.from({ length: N.current }).map((rt, b) => {
-      const pt = Math.max(0, b * p - a);
+    const a = O.current, { firstRow: f, lastRow: A } = k(a), L = Array.from({ length: N.current }).map((rt, x) => {
+      const pt = Math.max(0, x * p - a);
       return /* @__PURE__ */ vt(
         "div",
         {
-          "data-row-index": b,
+          "data-row-index": x,
           ref: (P) => {
-            P && (T.current[b] = P);
+            P && (T.current[x] = P);
           },
           style: {
             height: p,
@@ -1509,16 +1509,16 @@ function sr({
           },
           onDoubleClick: R
         },
-        `prev-${b}`
+        `prev-${x}`
       );
-    }), U = Array.from({ length: A - f + 1 }).map((rt, b) => {
-      const pt = (f + b) * p - a;
+    }), U = Array.from({ length: A - f + 1 }).map((rt, x) => {
+      const pt = (f + x) * p - a;
       return /* @__PURE__ */ vt(
         "div",
         {
-          "data-row-index": f + b,
+          "data-row-index": f + x,
           ref: (P) => {
-            P && (T.current[f + b] = P);
+            P && (T.current[f + x] = P);
           },
           style: {
             height: p,
@@ -1531,16 +1531,16 @@ function sr({
           },
           onDoubleClick: R
         },
-        `visible-${f + b}`
+        `visible-${f + x}`
       );
-    }), it = Array.from({ length: N.current }).map((rt, b) => {
-      const pt = (b + (A + 1)) * p - a;
+    }), it = Array.from({ length: N.current }).map((rt, x) => {
+      const pt = (x + (A + 1)) * p - a;
       return /* @__PURE__ */ vt(
         "div",
         {
-          "data-row-index": b + (A + 1),
+          "data-row-index": x + (A + 1),
           ref: (P) => {
-            P && (T.current[b + (A + 1)] = P);
+            P && (T.current[x + (A + 1)] = P);
           },
           style: {
             height: p,
@@ -1553,12 +1553,12 @@ function sr({
           },
           onDoubleClick: R
         },
-        `next-${b}`
+        `next-${x}`
       );
     });
     return [...L, ...U, ...it];
   };
-  return /* @__PURE__ */ We("div", { style: { display: "flex", width: "100%", height: "100%" }, children: [
+  return /* @__PURE__ */ We("div", { style: { display: "flex", flex: 1, width: "100%", height: "100%", overflow: "hidden" }, children: [
     /* @__PURE__ */ vt(
       "div",
       {
@@ -1574,7 +1574,7 @@ function sr({
         )
       }
     ),
-    /* @__PURE__ */ vt(Te, { show: !et, containerHeight: x, totalHeight: Q, ref: c })
+    /* @__PURE__ */ vt(Te, { show: !et, containerHeight: b, totalHeight: Q, ref: c })
   ] });
 }
 const ar = (g, u) => {

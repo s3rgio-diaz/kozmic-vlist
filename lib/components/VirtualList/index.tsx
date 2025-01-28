@@ -300,7 +300,7 @@ function VirtualList<T extends Record<string, unknown>>({
   };
 
   return (
-    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+    <div style={{ display: 'flex', flex: 1, width: '100%', height: '100%', overflow: 'hidden' }}>
       <div
         ref={viewRef}
         className={`${styles.wrapper}`}
