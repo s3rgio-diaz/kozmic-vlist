@@ -15,7 +15,7 @@ The goal of the **kozmic-vlist** component is to provide both DOM and data virtu
 
 The implementation of kinetic scrolling in **kozmic-vlist** draws inspiration from a series of [articles](https://ariya.io/tags/kinetic) on the mechanics and principles of kinetic scrolling. Kinetic or momentum scrolling, made popular by Apple on its mobile devices, covers key concepts such as deceleration, inertia, and user interaction, all of which have been foundational in designing smooth scrolling experiences.
 
-For data handling, the component takes inspiration from a Microsoft [article](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/implementing-virtual-mode-jit-data-loading-in-the-datagrid?view=netframeworkdesktop-4.8) that explains how to implement virtual mode with just-in-time data loading in a grid view control. While the article describes a two-page cache system, **kozmic-vlist** uses a tree-page cache to optimize data retrieval.
+For data handling, the component takes inspiration from a Microsoft [article](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/implementing-virtual-mode-jit-data-loading-in-the-datagrid?view=netframeworkdesktop-4.8#the-cache-class) that explains how to implement virtual mode with just-in-time data loading in a grid view control. While the article describes a two-page cache system, **kozmic-vlist** uses a tree-page cache to optimize data retrieval.
 
 ## Samples
 
