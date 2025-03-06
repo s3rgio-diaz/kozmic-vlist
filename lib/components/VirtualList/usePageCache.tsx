@@ -13,12 +13,14 @@ type UsePageCacheProps<T> = {
   fetchPageData: FetchPageData<T>;
   onCellContentUpdated?: () => void;
   rowsPerPage?: number;
+  onFirstPageLoaded?: (data: T[]) => void;
 };
 
 export function usePageCache<T extends Record<string, unknown> | LoadingType>({
   fetchPageData,
   onCellContentUpdated,
   rowsPerPage = 100,
+  onFirstPageLoaded
 }: UsePageCacheProps<T>) {
   const cache = useRef<{
     previousPage: PageData<T>;
@@ -33,6 +35,7 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
   const visiblePageIndex = useRef<number | null>(null);
   const isFetchingRef = useRef(false);
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const initialPageLoadedRef = useRef(false);
 
   // Fetch the page data
   const fetchPage = useCallback(
@@ -200,7 +203,14 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
       if (visiblePageIndex.current === null) {
         visiblePageIndex.current = pageIndex;
         await updateCache(pageIndex);
-        syncPage(firstVisibleRow); // No need to await here
+        syncPage(firstVisibleRow);
+        // Notify that the first page load is complete.
+        if (!initialPageLoadedRef.current && cache.current.visiblePage.data.length > 0) {
+          initialPageLoadedRef.current = true;
+          if (onFirstPageLoaded) {
+            onFirstPageLoaded(cache.current.visiblePage.data);
+          }
+        }
         return;
       }
 
