@@ -14,8 +14,9 @@ interface VirtualListProps<T extends Record<string, unknown>> {
     onTopRowChanged?: (rowIndex: number, rowData: T) => void;
     apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
     hideVerticalScrollbar?: boolean;
+    dataSourceKey?: number | string;
     debug?: boolean;
 }
-declare function VirtualList<T extends Record<string, unknown>>({ rowCount, fetchPageData, rowHeight, onEndReached, loadMoreThreshold, rowsPerPage, renderCell, onRowDoubleClick, onTopRowChanged, apiRef, hideVerticalScrollbar, debug, }: VirtualListProps<T>): import("react/jsx-runtime").JSX.Element;
+declare function VirtualList<T extends Record<string, unknown>>({ rowCount, fetchPageData, rowHeight, onEndReached, loadMoreThreshold, rowsPerPage, renderCell, onRowDoubleClick, onTopRowChanged, apiRef, hideVerticalScrollbar, dataSourceKey, debug, }: VirtualListProps<T>): import("react/jsx-runtime").JSX.Element;
 declare const _default: typeof VirtualList;
 export default _default;
