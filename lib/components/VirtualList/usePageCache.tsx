@@ -14,13 +14,15 @@ type UsePageCacheProps<T> = {
   onCellContentUpdated?: () => void;
   rowsPerPage?: number;
   onFirstPageLoaded?: (data: T[]) => void;
+  dataSourceKey: number | string;
 };
 
 export function usePageCache<T extends Record<string, unknown> | LoadingType>({
   fetchPageData,
   onCellContentUpdated,
   rowsPerPage = 100,
-  onFirstPageLoaded
+  onFirstPageLoaded,
+  dataSourceKey
 }: UsePageCacheProps<T>) {
   const cache = useRef<{
     previousPage: PageData<T>;
@@ -224,14 +226,41 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
     [debouncedSyncPage, rowsPerPage, syncPage, updateCache]
   );
 
-  // Get the row data
+  const prevDataSourceKeyRef = useRef(dataSourceKey);
+
+  // Helper function to clear the cache and related refs
+  const clearCache = useCallback(() => {
+    cache.current = {
+      previousPage: { data: [], pageNumber: null },
+      visiblePage: { data: [], pageNumber: null },
+      nextPage: { data: [], pageNumber: null },
+    };
+    visiblePageIndex.current = null;
+    initialPageLoadedRef.current = false;
+  }, []);
+
+  useEffect(() => {
+    // Only clear the cache if the dataSourceKey has actually changed.
+    if (prevDataSourceKeyRef.current !== dataSourceKey) {
+      clearCache();
+      updateAndSyncCache(1);
+      prevDataSourceKeyRef.current = dataSourceKey;
+    }
+    // Alternatively, on the very first render, you can initialize the cache.
+    else if (prevDataSourceKeyRef.current === undefined) {
+      clearCache();
+      updateAndSyncCache(1);
+      prevDataSourceKeyRef.current = dataSourceKey;
+    }
+  }, [dataSourceKey, clearCache, updateAndSyncCache]);
+
   const getRowData = (rowIndex: number) : T => {
     const pageIndex = Math.floor(rowIndex / rowsPerPage) + 1;
     const offset = rowIndex % rowsPerPage;
-
+  
     const { previousPage, visiblePage, nextPage } = cache.current;
     const currentPage = visiblePageIndex.current;
-
+  
     let page;
     switch (pageIndex) {
       case currentPage! - 1:
@@ -246,9 +275,9 @@ export function usePageCache<T extends Record<string, unknown> | LoadingType>({
       default:
         return { title: 'Loading...' } as T;
     }
-
-    return page?.[offset] ?? { title: 'Loading...' } as T;
-  };
+    const rowData = page?.[offset];  
+    return rowData ?? { title: 'Loading...' } as T;
+  };  
 
   useEffect(() => {
     if (visiblePageIndex.current === null) {

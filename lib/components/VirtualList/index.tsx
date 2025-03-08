@@ -21,6 +21,7 @@ interface VirtualListProps<T extends Record<string, unknown>> {
   onTopRowChanged?: (rowIndex: number, rowData: T) => void;
   apiRef?: React.MutableRefObject<VirtualListApi | undefined>;
   hideVerticalScrollbar?: boolean;
+  dataSourceKey?: number | string;
   debug?: boolean;
 }
 
@@ -36,6 +37,7 @@ function VirtualList<T extends Record<string, unknown>>({
   onTopRowChanged,
   apiRef,
   hideVerticalScrollbar = false,
+  dataSourceKey,
   debug = false,
 }: VirtualListProps<T>) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -74,29 +76,34 @@ function VirtualList<T extends Record<string, unknown>>({
     rowData: T, 
     rowIndex: number
   ) => {
+    // Ensure all previous children are removed.
+    while (rowElement.firstChild) {
+      rowElement.removeChild(rowElement.firstChild);
+    }
+  
     const cellElement = document.createElement('div');
-    const root = ReactDOM.createRoot(cellElement); 
+    const root = ReactDOM.createRoot(cellElement);
     cellElement.style.width = '100%';
     cellElement.style.height = '100%';
-    root.render(renderCell(rowData, rowIndex)); 
-    rowElement.innerHTML = '';
+    root.render(renderCell(rowData, rowIndex));
     rowElement.appendChild(cellElement);
   }, [renderCell]);
-
-
+  
   const handleCellContentUpdate = () => {
-    rowsRef.current.forEach(async (rowElement: HTMLElement) => {
-      if (rowElement) {
-        const rowIndex = parseInt(rowElement.dataset?.rowIndex || '0', 10);
-        const loading = !rowElement.textContent || rowElement.textContent.indexOf("Loading...") !== -1;
-        if (loading) {
-          const rowData = await getRowData(rowIndex) as T;
-          if (rowData) {
-            renderCellContent(rowElement, rowData, rowIndex);
+    if (rowsRef.current.length > 0) {
+      rowsRef.current.forEach(async (rowElement: HTMLElement) => {
+        if (rowElement) {
+          const rowIndex = parseInt(rowElement.dataset?.rowIndex || '0', 10);
+          const loading = !rowElement.textContent || rowElement.textContent.indexOf("Loading...") !== -1;
+          if (loading) {
+            const rowData = await getRowData(rowIndex) as T;
+            if (rowData) {
+              renderCellContent(rowElement, rowData, rowIndex);
+            }
           }
         }
-      }
-    });
+      });
+    }
   };
 
   const handleOnFirstPageLoaded = () => {
@@ -116,7 +123,8 @@ function VirtualList<T extends Record<string, unknown>>({
     fetchPageData,
     onCellContentUpdated: handleCellContentUpdate, 
     rowsPerPage,
-    onFirstPageLoaded: handleOnFirstPageLoaded
+    onFirstPageLoaded: handleOnFirstPageLoaded,
+    dataSourceKey: dataSourceKey || '',
   });
 
   const calculateVisibleRows = useCallback((scrollTop: number) => {
@@ -175,17 +183,19 @@ function VirtualList<T extends Record<string, unknown>>({
     }
   }, [calculateVisibleRows, fetchAndSetData, loadMoreThreshold, log, onEndReached, updateAndSyncCache, viewHeight]);
 
-  const handleOnScrollStop = useCallback(async (offset: number) => {    
+  const handleOnScrollStop = useCallback(async (offset: number) => {
     scrollTopRef.current = offset;
-    const { firstRow } = calculateVisibleRows(offset);
+    const { firstRow, lastRow } = calculateVisibleRows(offset);
   
     if (onTopRowChanged) {
       const data = await getRowData(firstRow);
       onTopRowChanged(firstRow, data);
     }
-    // console.log('handleOnScrollStop');
-    // debugRowPool(firstRow, lastRow);
-  }, [calculateVisibleRows, getRowData, onTopRowChanged]);  
+    if (debug) {
+      console.log('handleOnScrollStop');
+      debugRowPool(firstRow, lastRow);
+    }
+  }, [calculateVisibleRows, debug, getRowData, onTopRowChanged]);
 
   const { scrollToRow } = useKineticScroll({
     viewRef,
@@ -234,20 +244,20 @@ function VirtualList<T extends Record<string, unknown>>({
     rowsRef.current = [];
   
     // Use containerRef.current.scrollTop if available, otherwise fallback to scrollTopRef.current
-    const currentScrollTop = containerRef.current ? containerRef.current.scrollTop : scrollTopRef.current;
-    const { firstRow } = calculateVisibleRows(currentScrollTop);
+    const scrollPosition = containerRef.current ? containerRef.current.scrollTop : scrollTopRef.current;
+    const { firstRow } = calculateVisibleRows(scrollPosition);
   
-    const poolRows = Array.from({ length: poolSize.current }).map((_, poolIndex) => {
-      const actualRowIndex = firstRow + poolIndex;
-      const translateY = actualRowIndex * rowHeight - currentScrollTop;
+    const poolRows = Array.from({ length: poolSize.current }).map((_, index) => {
+      const actualRowIndex = firstRow + index;
+      const translateY = actualRowIndex * rowHeight - scrollPosition;
       return (
         <div
           // Composite key to force remount when firstRow changes.
-          key={`row-${firstRow}-${poolIndex}`} 
+          key={`row-${firstRow}-${index}`} 
           data-row-index={actualRowIndex}
           ref={(el) => {
             if (el) {
-              rowsRef.current[poolIndex] = el;
+              rowsRef.current[index] = el;
             }
           }}
           style={{
@@ -291,17 +301,18 @@ const arePropsEqual = <T extends Record<string, unknown>>(
   prevProps: VirtualListProps<T>, 
   nextProps: VirtualListProps<T>
 ) => {
-  // Get all the keys from the props objects
+  // Get all the keys from the props objects.
   const keys = Object.keys(prevProps) as (keyof VirtualListProps<T>)[];
 
-  // Check each prop for equality
+  // Check each prop for equality.
   for (const key of keys) {
     if (prevProps[key] !== nextProps[key]) {
-      return false;  // If any prop is different, return false
+       // If any prop is different, return false.
+      return false;
     }
   }
-
-  return true;  // All props are equal, so return true
+  // All props are equal, so return true.
+  return true;
 };
 
 export default React.memo(VirtualList, arePropsEqual) as typeof VirtualList;
